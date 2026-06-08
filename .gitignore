@@ -11,3 +11,6 @@ build/
 __pycache__/
 .venv/
 .env
+
+# Runtime uploads
+backend/uploads/scrap_photos/

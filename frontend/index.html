@@ -38,20 +38,206 @@
       opacity: 1;
       transition: opacity 0.3s ease-out;
     }
+
+    /* 标签页样式 */
+    .tab-btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.75rem 1.25rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #6b7280;
+      border-bottom: 2px solid transparent;
+      background: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: -1px;
+    }
+
+    .tab-btn:hover {
+      color: #4f46e5;
+      background-color: #f5f3ff;
+    }
+
+    .tab-btn.active {
+      color: #4f46e5;
+      border-bottom-color: #4f46e5;
+      background-color: #eef2ff;
+    }
+
+    .tab-pane {
+      display: none;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .tab-pane.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 资产卡片 */
+    .asset-card {
+      border: 1px solid #e5e7eb;
+      border-radius: 0.75rem;
+      padding: 1.25rem;
+      margin-bottom: 0.75rem;
+      transition: all 0.2s;
+    }
+
+    .asset-card:hover {
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      border-color: #c7d2fe;
+    }
+
+    /* 检查项 */
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .check-item.passed {
+      background-color: #ecfdf5;
+      border-left: 4px solid #10b981;
+    }
+
+    .check-item.failed {
+      background-color: #fef2f2;
+      border-left: 4px solid #ef4444;
+    }
+
+    .check-item.warning {
+      background-color: #fffbeb;
+      border-left: 4px solid #f59e0b;
+    }
+
+    /* 风险提醒 */
+    .risk-alert {
+      background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+      border: 2px solid #ef4444;
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      animation: pulse-danger 2s infinite;
+    }
+
+    @keyframes pulse-danger {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+      50% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+    }
+
+    /* 摄像头预览 */
+    #cameraPreview {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 0.5rem;
+      background: #000;
+    }
+
+    /* 状态标签 */
+    .status-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.025em;
+    }
+
+    .status-in_use { background-color: #dbeafe; color: #1e40af; }
+    .status-borrowed { background-color: #fef3c7; color: #92400e; }
+    .status-idle { background-color: #e5e7eb; color: #374151; }
+    .status-scrap_pending { background-color: #fed7aa; color: #9a3412; }
+    .status-scrapped { background-color: #fecaca; color: #991b1b; }
+
+    /* 表单样式增强 */
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    /* 步骤指示器 */
+    .step-indicator {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .step-indicator::before {
+      content: '';
+      position: absolute;
+      top: 16px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: #e5e7eb;
+      z-index: 0;
+    }
+
+    .step {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #e5e7eb;
+      color: #6b7280;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .step.active .step-number {
+      background: #4f46e5;
+      color: white;
+    }
+
+    .step.completed .step-number {
+      background: #10b981;
+      color: white;
+    }
+
+    .step-label {
+      font-size: 0.75rem;
+      color: #6b7280;
+      text-align: center;
+    }
+
+    .step.active .step-label {
+      color: #4f46e5;
+      font-weight: 600;
+    }
   </style>
 </head>
 
 <body class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8 px-4 sm:px-6 lg:px-8 font-sans text-gray-900">
-  <div class="max-w-4xl mx-auto">
+  <div class="max-w-6xl mx-auto">
     <!-- 主卡片 -->
     <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
       <div class="p-8">
         <!-- 标题区域 -->
-        <div class="flex justify-between items-start mb-8">
+        <div class="flex justify-between items-start mb-6">
           <div>
             <div class="uppercase tracking-wide text-xs font-bold text-indigo-500 mb-2">系统工具</div>
-            <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">固定资产编码查询</h1>
-            <p class="mt-2 text-gray-500">输入服务器 IP 和固定资产编码快速查询对应的 SN</p>
+            <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">固定资产管理系统</h1>
+            <p class="mt-2 text-gray-500">固定资产查询、报废流程管理与扫码检测</p>
           </div>
           <button id="settingsBtn"
             class="text-gray-400 hover:text-indigo-600 p-2 rounded-full hover:bg-indigo-50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
@@ -66,97 +252,227 @@
           </button>
         </div>
 
-        <!-- 查询表单 -->
-        <form id="queryForm" class="space-y-6 mb-8" novalidate>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- 服务器 IP -->
-            <div>
-              <label for="ipInput" class="block text-sm font-semibold text-gray-700 mb-2">服务器 IP 或域名</label>
-              <div class="relative rounded-md shadow-sm">
-                <input type="text" id="ipInput"
-                  class="block w-full px-4 py-3 border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border transition-shadow"
-                  placeholder="例如: 192.168.1.100 或 localhost" value="localhost">
-              </div>
-            </div>
-
-            <!-- FACode -->
-            <div>
-              <label for="facodeInput" class="block text-sm font-semibold text-gray-700 mb-2">固定资产编码 (FACode)</label>
-              <div class="relative rounded-md shadow-sm">
-                <input type="text" id="facodeInput"
-                  class="block w-full px-4 py-3 border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border transition-shadow"
-                  placeholder="例如: FA001">
-              </div>
-            </div>
-          </div>
-
-          <!-- 查询按钮 -->
-          <button type="button" onclick="window.queryManager.performQuery()"
-            class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 hover:shadow-md active:scale-[0.99]">
-            查询 SN
-          </button>
-        </form>
-
-        <!-- Loading -->
-        <div id="loading" class="hidden py-8 flex justify-center">
-          <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-indigo-600"></div>
-        </div>
-
-        <!-- 成功结果 -->
-        <div id="resultBox" class="hidden mb-8">
-          <div id="resultContent"></div>
-        </div>
-
-        <!-- 错误提示卡片 -->
-        <div id="errorBox" class="hidden mb-8">
-          <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-md">
-            <div class="flex">
-              <div class="flex-shrink-0">
-                <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                  fill="currentColor">
-                  <path fill-rule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                    clip-rule="evenodd" />
-                </svg>
-              </div>
-              <div class="ml-3">
-                <h3 class="text-sm font-medium text-red-800">请求出错</h3>
-                <div id="errorMessage" class="mt-2 text-sm text-red-700"></div>
-              </div>
-            </div>
+        <!-- 服务器 IP 输入 (全局) -->
+        <div class="mb-6">
+          <label for="ipInput" class="block text-sm font-semibold text-gray-700 mb-2">服务器 IP 或域名</label>
+          <div class="relative rounded-md shadow-sm">
+            <input type="text" id="ipInput"
+              class="block w-full px-4 py-3 border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border transition-shadow"
+              placeholder="例如: 192.168.1.100 或 localhost" value="localhost">
           </div>
         </div>
 
-        <!-- API 调用命令 -->
-        <div class="bg-slate-900 rounded-lg p-5 overflow-hidden shadow-inner mb-8">
-          <div class="flex justify-between items-center mb-2">
-            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">API 调用命令</span>
-          </div>
-          <div class="overflow-x-auto">
-            <pre id="curlCommand" class="text-sm font-mono text-green-400 whitespace-pre-wrap break-all"></pre>
-          </div>
-        </div>
-
-        <!-- 查询历史 -->
-        <div class="border-t border-gray-100 pt-8">
-          <div class="flex items-center justify-between mb-6">
-            <h2 class="text-lg font-bold text-gray-900">查询历史</h2>
-            <button id="clearHistoryBtn"
-              class="text-sm text-gray-500 hover:text-red-600 transition-colors flex items-center font-medium">
-              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                </path>
+        <!-- 标签页导航 -->
+        <div class="border-b border-gray-200 mb-6">
+          <nav class="flex space-x-1" id="tabNav">
+            <button data-tab="query" class="tab-btn active">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
-              清空历史
+              资产查询
             </button>
+            <button data-tab="assets" class="tab-btn">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
+              </svg>
+              资产列表
+            </button>
+            <button data-tab="scrap" class="tab-btn">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+              报废流程
+            </button>
+            <button data-tab="finance" class="tab-btn">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              财务确认
+            </button>
+            <button data-tab="scan" class="tab-btn">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+              </svg>
+              扫码检测
+            </button>
+          </nav>
+        </div>
+
+        <!-- 标签页内容 -->
+        <div class="tab-content">
+          <!-- 资产查询标签页 -->
+          <div id="tab-query" class="tab-pane active">
+            <!-- 查询表单 -->
+            <form id="queryForm" class="space-y-6 mb-8" novalidate>
+              <div>
+                <label for="facodeInput" class="block text-sm font-semibold text-gray-700 mb-2">固定资产编码 (FACode)</label>
+                <div class="relative rounded-md shadow-sm">
+                  <input type="text" id="facodeInput"
+                    class="block w-full px-4 py-3 border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border transition-shadow"
+                    placeholder="例如: FA001">
+                </div>
+              </div>
+
+              <!-- 查询按钮 -->
+              <button type="button" onclick="window.queryManager.performQuery()"
+                class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 hover:shadow-md active:scale-[0.99]">
+                查询资产
+              </button>
+            </form>
+
+            <!-- Loading -->
+            <div id="loading" class="hidden py-8 flex justify-center">
+              <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-indigo-600"></div>
+            </div>
+
+            <!-- 成功结果 -->
+            <div id="resultBox" class="hidden mb-8">
+              <div id="resultContent"></div>
+            </div>
+
+            <!-- 错误提示卡片 -->
+            <div id="errorBox" class="hidden mb-8">
+              <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-md">
+                <div class="flex">
+                  <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                      fill="currentColor">
+                      <path fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                        clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                  <div class="ml-3">
+                    <h3 class="text-sm font-medium text-red-800">请求出错</h3>
+                    <div id="errorMessage" class="mt-2 text-sm text-red-700"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- API 调用命令 -->
+            <div class="bg-slate-900 rounded-lg p-5 overflow-hidden shadow-inner mb-8">
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">API 调用命令</span>
+              </div>
+              <div class="overflow-x-auto">
+                <pre id="curlCommand" class="text-sm font-mono text-green-400 whitespace-pre-wrap break-all"></pre>
+              </div>
+            </div>
+
+            <!-- 查询历史 -->
+            <div class="border-t border-gray-100 pt-8">
+              <div class="flex items-center justify-between mb-6">
+                <h2 class="text-lg font-bold text-gray-900">查询历史</h2>
+                <button id="clearHistoryBtn"
+                  class="text-sm text-gray-500 hover:text-red-600 transition-colors flex items-center font-medium">
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                    </path>
+                  </svg>
+                  清空历史
+                </button>
+              </div>
+
+              <div id="historyList" class="space-y-4">
+                <!-- 动态生成历史记录 -->
+              </div>
+              <div id="emptyHistory" class="text-center py-10 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
+                <p class="text-gray-400 text-sm">暂无查询历史记录</p>
+              </div>
+            </div>
           </div>
 
-          <div id="historyList" class="space-y-4">
-            <!-- 动态生成历史记录 -->
+          <!-- 资产列表标签页 -->
+          <div id="tab-assets" class="tab-pane">
+            <div class="mb-6 flex justify-between items-center">
+              <h2 class="text-xl font-bold text-gray-900">资产列表</h2>
+              <button onclick="window.assetManager.loadAssetList()" 
+                class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition text-sm font-medium flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                刷新
+              </button>
+            </div>
+            <div id="assetListContainer">
+              <div class="text-center py-12 text-gray-500">
+                <svg class="w-12 h-12 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                </svg>
+                <p>点击刷新按钮加载资产列表</p>
+              </div>
+            </div>
           </div>
-          <div id="emptyHistory" class="text-center py-10 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
-            <p class="text-gray-400 text-sm">暂无查询历史记录</p>
+
+          <!-- 报废流程标签页 -->
+          <div id="tab-scrap" class="tab-pane">
+            <div class="mb-6">
+              <h2 class="text-xl font-bold text-gray-900 mb-2">资产报废申请</h2>
+              <p class="text-sm text-gray-500">输入资产编码，系统将自动检查报废条件</p>
+            </div>
+
+            <div class="mb-6">
+              <label class="block text-sm font-semibold text-gray-700 mb-2">固定资产编码 (FACode)</label>
+              <div class="flex gap-3">
+                <input type="text" id="scrapFacodeInput"
+                  class="flex-1 px-4 py-3 border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 border transition-shadow"
+                  placeholder="例如: FA001">
+                <button onclick="window.scrapManager.checkScrap()" 
+                  class="px-6 py-3 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition font-bold">
+                  报废检查
+                </button>
+              </div>
+            </div>
+
+            <div id="scrapCheckResult" class="hidden"></div>
+            <div id="scrapApplyForm" class="hidden"></div>
+            <div id="scrapListContainer"></div>
+          </div>
+
+          <!-- 财务确认标签页 -->
+          <div id="tab-finance" class="tab-pane">
+            <div class="mb-6">
+              <h2 class="text-xl font-bold text-gray-900 mb-2">财务确认</h2>
+              <p class="text-sm text-gray-500">审核待处理的报废申请</p>
+            </div>
+            <div id="financeListContainer">
+              <div class="text-center py-12 text-gray-500">
+                <svg class="w-12 h-12 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+                <p>点击下方按钮加载待确认的报废申请</p>
+                <button onclick="window.financeManager.loadPendingList()" 
+                  class="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition text-sm font-medium">
+                  加载待确认列表
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 扫码检测标签页 -->
+          <div id="tab-scan" class="tab-pane">
+            <div class="mb-6">
+              <h2 class="text-xl font-bold text-gray-900 mb-2">扫码检测</h2>
+              <p class="text-sm text-gray-500">扫描资产编码，检测资产状态，报废设备将触发风险提醒</p>
+            </div>
+
+            <div class="mb-6">
+              <label class="block text-sm font-semibold text-gray-700 mb-2">扫描或输入资产编码</label>
+              <div class="flex gap-3">
+                <input type="text" id="scanFacodeInput"
+                  class="flex-1 px-4 py-3 border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 border transition-shadow text-lg font-mono"
+                  placeholder="扫码后自动填充或手动输入...">
+                <button onclick="window.scanManager.checkScan()" 
+                  class="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-bold">
+                  检测
+                </button>
+              </div>
+            </div>
+
+            <div id="scanResultContainer"></div>
+            <div id="scanRecordForm" class="hidden mt-6"></div>
           </div>
         </div>
       </div>

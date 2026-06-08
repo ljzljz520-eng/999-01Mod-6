@@ -2,7 +2,7 @@ services:
   frontend:
     build: ./frontend
     ports:
-      - "3000:80"
+      - "3001:80"
     depends_on:
       - backend
     networks:
@@ -11,7 +11,7 @@ services:
   backend:
     build: ./backend
     ports:
-      - "8080:80"
+      - "8081:80"
     environment:
       - DB_CONNECTION=mysql
       - DB_HOST=db
@@ -21,6 +21,7 @@ services:
       - DB_PASSWORD=root
     volumes:
       - ./backend:/var/www/html
+      - ./backend/uploads:/var/www/html/uploads
     depends_on:
       - db
     networks:
