@@ -114,7 +114,7 @@ try {
                 'facode' => $scrapProcess['facode'],
                 'status' => $newStatus
             ]
-        ]);
+        ], JSON_UNESCAPED_UNICODE);
 
     } catch (Exception $e) {
         $pdo->rollBack();
@@ -126,5 +126,5 @@ try {
     echo json_encode([
         'success' => false,
         'error' => $e->getMessage()
-    ]);
+    ], JSON_UNESCAPED_UNICODE);
 }

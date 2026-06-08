@@ -37,6 +37,8 @@ class Database
         try {
             $pdo = new PDO($dsn, $user, $password);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $pdo->exec("SET NAMES utf8mb4");
+            $pdo->exec("SET CHARACTER SET utf8mb4");
             return $pdo;
         } catch (PDOException $e) {
             // 安全起见，生产环境不应直接抛出详细连接错误，但开发工具可以

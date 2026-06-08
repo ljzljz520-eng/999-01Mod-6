@@ -31,6 +31,9 @@ try {
     if (!$remark) {
         throw new Exception('请填写说明');
     }
+    if (!$photoData) {
+        throw new Exception('请拍照上传现场照片，拍照为必填项');
+    }
 
     $db = new Database();
     $pdo = $db->connect();
@@ -99,12 +102,12 @@ try {
             'facode' => $facode,
             'photo_path' => $photoPath
         ]
-    ]);
+    ], JSON_UNESCAPED_UNICODE);
 
 } catch (Exception $e) {
     http_response_code(400);
     echo json_encode([
         'success' => false,
         'error' => $e->getMessage()
-    ]);
+    ], JSON_UNESCAPED_UNICODE);
 }

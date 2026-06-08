@@ -10,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../includes/scrap_check_helper.php';
 
 try {
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -20,7 +21,6 @@ try {
     $facode = $input['facode'] ?? null;
     $applicant = $input['applicant'] ?? null;
     $scrapReason = $input['scrap_reason'] ?? null;
-    $checkResult = $input['check_result'] ?? null;
 
     if (!$facode) {
         throw new Exception('缺少 facode 参数');
@@ -38,27 +38,25 @@ try {
     $pdo->beginTransaction();
 
     try {
-        $stmt = $pdo->prepare("SELECT * FROM assets WHERE facode = :facode");
-        $stmt->execute(['facode' => $facode]);
-        $asset = $stmt->fetch(PDO::FETCH_ASSOC);
+        $checkResult = performScrapCheck($pdo, $facode);
 
-        if (!$asset) {
-            throw new Exception('未找到该资产信息');
+        if (!$checkResult['success']) {
+            throw new Exception($checkResult['error']);
         }
 
-        if ($asset['status'] === 'scrapped') {
-            throw new Exception('该资产已完成报废');
-        }
-        if ($asset['status'] === 'scrap_pending') {
-            throw new Exception('该资产已提交报废申请，正在处理中');
+        if (!$checkResult['can_scrap']) {
+            $blockingMsg = implode('；', $checkResult['blocking_failures']);
+            throw new Exception('无法提交报废申请：' . $blockingMsg);
         }
 
-        $stmt = $pdo->prepare("SELECT * FROM borrow_records WHERE asset_id = :asset_id AND status = 'active'");
-        $stmt->execute(['asset_id' => $asset['id']]);
-        $activeBorrow = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($activeBorrow) {
-            throw new Exception('资产正在借用中，不能申请报废');
-        }
+        $asset = $checkResult['asset'];
+        $checkResultsJson = json_encode([
+            'check_time' => date('Y-m-d H:i:s'),
+            'checks' => $checkResult['checks'],
+            'warnings' => $checkResult['warnings'],
+            'blocking_failures' => $checkResult['blocking_failures'],
+            'can_scrap' => $checkResult['can_scrap']
+        ], JSON_UNESCAPED_UNICODE);
 
         $stmt = $pdo->prepare("
             INSERT INTO scrap_process 
@@ -72,7 +70,7 @@ try {
             'sn' => $asset['sn'],
             'applicant' => $applicant,
             'scrap_reason' => $scrapReason,
-            'check_result' => $checkResult ? json_encode($checkResult) : null
+            'check_result' => $checkResultsJson
         ]);
 
         $scrapProcessId = $pdo->lastInsertId();
@@ -89,9 +87,13 @@ try {
                 'scrap_process_id' => $scrapProcessId,
                 'facode' => $facode,
                 'status' => 'pending_finance',
-                'applicant' => $applicant
+                'applicant' => $applicant,
+                'check_result' => [
+                    'warnings' => $checkResult['warnings'],
+                    'blocking_failures' => $checkResult['blocking_failures']
+                ]
             ]
-        ]);
+        ], JSON_UNESCAPED_UNICODE);
 
     } catch (Exception $e) {
         $pdo->rollBack();
@@ -103,5 +105,5 @@ try {
     echo json_encode([
         'success' => false,
         'error' => $e->getMessage()
-    ]);
+    ], JSON_UNESCAPED_UNICODE);
 }

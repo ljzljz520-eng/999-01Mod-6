@@ -33,12 +33,12 @@ try {
     echo json_encode([
         'success' => true,
         'data' => $result ?: null
-    ]);
+    ], JSON_UNESCAPED_UNICODE);
 
 } catch (Exception $e) {
     http_response_code(400); // Bad Request
     echo json_encode([
         'success' => false,
         'error' => $e->getMessage()
-    ]);
+    ], JSON_UNESCAPED_UNICODE);
 }

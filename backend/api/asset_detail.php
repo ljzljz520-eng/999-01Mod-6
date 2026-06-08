@@ -29,7 +29,7 @@ try {
         echo json_encode([
             'success' => true,
             'data' => null
-        ]);
+        ], JSON_UNESCAPED_UNICODE);
         exit;
     }
 
@@ -64,12 +64,12 @@ try {
             'borrow_history' => $borrowHistory,
             'scrap_process' => $scrapProcess
         ]
-    ]);
+    ], JSON_UNESCAPED_UNICODE);
 
 } catch (Exception $e) {
     http_response_code(400);
     echo json_encode([
         'success' => false,
         'error' => $e->getMessage()
-    ]);
+    ], JSON_UNESCAPED_UNICODE);
 }

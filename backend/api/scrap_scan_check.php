@@ -34,7 +34,7 @@ try {
                 'risk_level' => 'none',
                 'message' => '未找到该资产信息'
             ]
-        ]);
+        ], JSON_UNESCAPED_UNICODE);
         exit;
     }
 
@@ -86,12 +86,12 @@ try {
             'scrap_info' => $scrapInfo,
             'scan_history' => $scanHistory ?? []
         ]
-    ]);
+    ], JSON_UNESCAPED_UNICODE);
 
 } catch (Exception $e) {
     http_response_code(400);
     echo json_encode([
         'success' => false,
         'error' => $e->getMessage()
-    ]);
+    ], JSON_UNESCAPED_UNICODE);
 }
